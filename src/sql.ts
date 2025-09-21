@@ -1,27 +1,24 @@
 import sqlite3 from 'sqlite3';
-import { open } from 'sqlite';
+import { open ,Database} from 'sqlite';
 
 // sqlite3 verbose 可以打印调试信息
 sqlite3.verbose();
 
-async function initDatabase() {
+async function openDatabase(name: string):Promise<Database> {
   // 打开数据库，如果不存在会自动创建
-  const db = await open({
-    filename: './mydatabase.db',
+  const db: Database = await open({
+    filename: './' + name + '.db',
     driver: sqlite3.Database
   });
-
-  // 创建表
-  await db.exec(`
-    CREATE TABLE IF NOT EXISTS users (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT,
-      age INTEGER
-    )
-  `);
-
   return db;
+}
+async function execSql(db: Database, execsql: string) :Promise<void>{
+   await db.exec(execsql);
+}
+async function runSql(db:Database,runsql:string):Promise<any>{
+  const result = await db.run(runsql);
+  return result;
 }
 
 
-export { initDatabase };
+export { openDatabase, execSql, runSql };
