@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",               // 或 ESNext
+    "module": "NodeNext",               // 关键：改成 ESM
+    "moduleResolution": "NodeNext",   
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": ["src/**/*"]
+}

@@ -2,12 +2,12 @@
 
 import OpenAI from "openai";
 
-const openai = new OpenAI({
-        baseURL: 'https://api.deepseek.com',
-        apiKey: 'sk-0ee1885fa8bf477d8b0979eb999b9f1c'
+const openai: OpenAI = new OpenAI({
+    baseURL: 'https://api.deepseek.com',
+    apiKey: 'sk-0ee1885fa8bf477d8b0979eb999b9f1c'
 });
 
-const system_prompt = `
+const system_prompt: string = `
 The user will provide some exam text. Please parse the "question" and "answer" and output them in JSON format. 
 you need explain this word mean in english for a chinese student, and pay attention to the usage examples's difficulty.
 besides you need to judje whether the word is suitable for image description, if it is suitable, set the value of "isSuitableImageDescription" to true, otherwise set it to false.
@@ -30,21 +30,22 @@ EXAMPLE JSON OUTPUT:
 }
 `
 
-const user_prompt = "explain the word \"ironic\" for a primary school student"
-
-const messages = [{"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt}]
 
 
-async function main() {
-  console.log("发送请求")
-  const completion = await openai.chat.completions.create({
-    messages:messages,
-    model: "deepseek-chat",
-  });
-  console.log("收到回复")
+async function request(word: string): Promise<void> {
 
-  console.log(completion.choices[0].message.content);
+    const user_prompt :string = "explain the word \""+word+"\" for a primary school student"
+
+    const messages: Array<{ role: "system" | "user" | "assistant", content: string }> = [
+        { role: "system", content: system_prompt },
+        { role: "user", content: user_prompt }
+    ];
+    const completion = await openai.chat.completions.create({
+        messages: messages,
+        model: "deepseek-chat",
+    });
+
+    console.log(completion.choices[0].message.content);
 }
 
-main();
+export { request };
