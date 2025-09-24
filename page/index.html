@@ -1,13 +1,30 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Electron App</title>
-    </head>
-    <body>
-        <h1>Hello, Electron with TypeScript!</h1>
-        <div id="text">origin content</div>
-    </body>
-    <script src="../dist/index.js"></script>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Electron App</title>
+    <link rel="stylesheet" href="./background.css" />
+    <link rel="stylesheet" href="./button.css">
+</head>
+
+<body>
+    <h1>Welcome </h1>
+
+    <button class="btn cube cube-hover" type="button" id="start" onclick="location.href='./welcome/welcome.html'" >
+        <div class="bg-top">
+            <div class="bg-inner"></div>
+        </div>
+        <div class="bg-right">
+            <div class="bg-inner"></div>
+        </div>
+        <div class="bg">
+            <div class="bg-inner"></div>
+        </div>
+        <div class="text">Start</div>
+    </button>
+</body>
+<script type="module" src="../dist/index.js"></script>
+
 </html>

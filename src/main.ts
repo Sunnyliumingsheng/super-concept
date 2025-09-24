@@ -1,4 +1,5 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow,ipcMain } from 'electron';
+import path from 'path';
 
 let win: BrowserWindow | null = null;
 
@@ -17,6 +18,13 @@ const createWindow = () => {
     win = null;
   });
 };
+
+ipcMain.on('open-new-window', (event) => {
+  const startWin = new BrowserWindow({ width: 800, height: 600 })
+  console.log(path.join(__dirname, 'page/welcome/welcome.html'));
+  startWin.loadFile(path.join(__dirname, 'page/welcome/welcome.html'))
+})
+
 import { isFirstRun } from './init.js';
 if (isFirstRun()) {
   // 执行首次运行逻辑，比如初始化设置、弹窗等

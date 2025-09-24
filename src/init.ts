@@ -1,21 +1,27 @@
 import { app } from 'electron';
-import fs from 'fs';
-import path from 'path';
+import Store from 'electron-store';
+import { openDatabase, execSql } from './sql.js';
+import { createAndInitConfigSql } from './config.js';
 
-const markerFile = path.join(app.getPath('userData'), '.first-run');
+const store = new Store({ name: 'app-state' });
 
- function isFirstRun(): boolean {
-  if (!fs.existsSync(markerFile)) {
-    fs.writeFileSync(markerFile, 'initialized');
+function isFirstRun(): boolean {
+  const hasRun = store.get('hasRunBefore') as boolean | undefined;
+  if (hasRun) {
+    // 目前是测试阶段，不管怎样都init
+    initApp();
+    return false;
+  } else {
+    initApp();
+    store.set('hasRunBefore', true);
     return true;
   }
-  return false;
 }
 
-import {openDatabase,execSql} from './sql.js';
-async function init(){
-    //创建配置db
-    const db = await openDatabase('config.db');
-    
+async function initApp() {
+  // 创建配置 db
+  const db = await openDatabase('config');
+  await execSql(db, createAndInitConfigSql());
 }
-export { isFirstRun };
+
+export { isFirstRun, initApp };
